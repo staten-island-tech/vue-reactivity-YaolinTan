@@ -1,9 +1,9 @@
+<script setup>
+import PickPlayer from '@/components/PickPlayer.vue'
+</script>
+
 <template>
-  <div>
-    <h2>laikhdsfbikljasdbklf</h2>
-  </div>
+  <main>
+    <PickPlayer />
+  </main>
 </template>
-
-<script setup></script>
-
-<style lang="scss" scoped></style>

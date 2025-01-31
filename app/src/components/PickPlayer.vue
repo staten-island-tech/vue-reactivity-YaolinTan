@@ -1,9 +1,9 @@
 <template>
-  <div></div>
+  <div>
+    <div class="box">Test</div>
+  </div>
 </template>
 
-<script>
-export default {}
-</script>
+<script setup></script>
 
-<style lang="scss" scoped></style>
+<style scoped></style>

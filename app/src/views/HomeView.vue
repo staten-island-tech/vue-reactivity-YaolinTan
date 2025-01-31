@@ -1,9 +1,9 @@
 <script setup>
-import TheWelcome from '../components/TheWelcome.vue'
+import PickPlayer from '@/components/PickPlayer.vue'
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <PickPlayer />
   </main>
 </template>

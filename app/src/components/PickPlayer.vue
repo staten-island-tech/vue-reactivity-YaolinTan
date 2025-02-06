@@ -12,7 +12,20 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { players } from './array'
+import { ref } from 'vue'
+
+const randomNumber1 = Math.floor(Math.random() * 99)
+const randomNumber2 = Math.floor(Math.random() * 99)
+const randomNumber3 = Math.floor(Math.random() * 99)
+
+let player1 = players[randomNumber1]
+let player2 = players[randomNumber2]
+let player3 = players[randomNumber3]
+
+console.log(player1, player2, player3)
+</script>
 
 <style scoped>
 .submit-button {

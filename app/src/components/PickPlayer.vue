@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="box">
+    <div class="box content mt-[3rem] flex justify-center items-center">
       <form @submit.prevent="navigateToAbout">
         <p>Select an option:</p>
         <label>

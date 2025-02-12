@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="scoreboard">
+    <div class="scoreboard flex justify-center">
       <span class="score">{{ playerScore }} - {{ cpuScore }}</span>
     </div>
   </div>

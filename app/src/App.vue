@@ -4,29 +4,49 @@ import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
-  <div class="flex justify-start items-center w-full">
-    <header>
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </header>
-    <RouterView />
-    <footer></footer>
+  <div>
+    <div class="flex flex-col justify-start items-center w-full">
+      <header class="flex flex-col justify-start items-center w-full">
+        <H1 class="text-[3rem]">All About Buckets</H1>
+        <nav>
+          <RouterLink to="/">Restart</RouterLink>
+        </nav>
+      </header>
+      <RouterView />
+      <footer></footer>
+    </div>
   </div>
 </template>
 
 <style scoped>
+header {
+  line-height: 1.5;
+  max-height: 100vh;
+  margin-top: 2rem;
+  margin-left: 2rem;
+}
+
 .logo {
   display: block;
-  margin: 0 auto 2rem;
+  margin: 0; /* Removed auto centering */
 }
 
 nav {
-  width: 100%;
-  font-size: 12px;
+  width: 33vw;
   text-align: center;
-  margin-top: 2rem;
+}
+
+.btn {
+  padding: 10px 20px;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.btn:hover {
 }
 
 nav a.router-link-exact-active {
@@ -39,8 +59,6 @@ nav a.router-link-exact-active:hover {
 
 nav a {
   display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
 }
 
 nav a:first-of-type {
@@ -50,21 +68,19 @@ nav a:first-of-type {
 @media (min-width: 1024px) {
   header {
     display: flex;
-    place-items: center;
+    align-items: center; /* Ensure vertical alignment */
+    justify-content: flex-start; /* Align left */
     padding-right: calc(var(--section-gap) / 2);
   }
 
   .logo {
-    margin: 0 2rem 0 0;
+    margin: 0; /* No margin on the logo */
   }
 
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
+  header .wrapper {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
   }
 }
 </style>

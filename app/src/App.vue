@@ -44,9 +44,6 @@ nav {
   transition: background-color 0.3s ease;
 }
 
-.btn:hover {
-}
-
 nav a.router-link-exact-active {
   color: var(--color-text);
 }

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="flex justify-center">
     <div class="scoreboard flex justify-center">
       <span class="score">{{ playerScore }} - {{ cpuScore }}</span>
     </div>

@@ -4,8 +4,8 @@ import HelloWorld from './components/HelloWorld.vue'
 </script>
 
 <template>
-  <div>
-    <div class="flex flex-col justify-start items-center w-full">
+  <div class="flex justify-center">
+    <div class="flex flex-col justify-center w-full padding-[0rem]">
       <header class="flex flex-col justify-start items-center w-full">
         <H1 class="text-[3rem]">All About Buckets</H1>
         <nav>
@@ -22,8 +22,6 @@ import HelloWorld from './components/HelloWorld.vue'
 header {
   line-height: 1.5;
   max-height: 100vh;
-  margin-top: 2rem;
-  margin-left: 2rem;
 }
 
 .logo {
@@ -70,7 +68,6 @@ nav a:first-of-type {
     display: flex;
     align-items: center; /* Ensure vertical alignment */
     justify-content: flex-start; /* Align left */
-    padding-right: calc(var(--section-gap) / 2);
   }
 
   .logo {

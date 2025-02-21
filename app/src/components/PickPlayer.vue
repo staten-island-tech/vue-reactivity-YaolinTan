@@ -19,9 +19,9 @@
       </form>
       <h2>Selected Player: {{ selectedPlayer }}</h2>
     </div>
-    <div>
-      <div v-for="player in playersArray" :key="player.name" class="player-card">
-        <h2>{{ player.name }}</h2>
+    <div class="flex flex-row">
+      <div v-for="player in playersArray" :key="player.name" class="player-card mx-[1rem]">
+        <h2 class="font-bold">{{ player.name }}</h2>
         <ul>
           <li>Overall: {{ player.overall }}</li>
           <li>Ball Handling: {{ player.ballHandling }}</li>

@@ -4,20 +4,20 @@
       <form @submit.prevent="navigateToAbout">
         <p>Select an option:</p>
         <label>
-          <input type="radio" name="choice" :value="player1.name" v-model="selectedPlayer" />
+          <input type="radio" name="choice" :value="player1" v-model="selectedPlayer.player" />
           {{ player1.name }} </label
         ><br />
         <label>
-          <input type="radio" name="choice" :value="player2.name" v-model="selectedPlayer" />
+          <input type="radio" name="choice" :value="player2" v-model="selectedPlayer.player" />
           {{ player2.name }} </label
         ><br />
         <label>
-          <input type="radio" name="choice" :value="player3.name" v-model="selectedPlayer" />
+          <input type="radio" name="choice" :value="player3" v-model="selectedPlayer.player" />
           {{ player3.name }} </label
         ><br />
         <button class="submit-button" type="submit">Submit</button>
       </form>
-      <h2>Selected Player: {{ selectedPlayer }}</h2>
+      <h2>Selected Player: {{ selectedPlayer.player ? selectedPlayer.player.name : 'None' }}</h2>
     </div>
     <div class="flex flex-row">
       <div v-for="player in playersArray" :key="player.name" class="player-card mx-[1rem]">
@@ -39,30 +39,26 @@
 
 <script setup>
 import { players } from './array'
-import { ref } from 'vue'
-import { useRouter } from 'vue-router' // Import useRouter for navigation
+import { reactive } from 'vue'
+import { useRouter } from 'vue-router'
+import eventBus from '../EventBus' // Adjust the path based on the actual location
 
-const router = useRouter() // Create the router instance
+const router = useRouter()
 
 const randomNumber1 = Math.floor(Math.random() * players.length)
 const randomNumber2 = Math.floor(Math.random() * players.length)
 const randomNumber3 = Math.floor(Math.random() * players.length)
 
-// Store selected players in an array
 const playersArray = [players[randomNumber1], players[randomNumber2], players[randomNumber3]]
 
-// You can access player1, player2, and player3 as follows:
 const player1 = playersArray[0]
 const player2 = playersArray[1]
 const player3 = playersArray[2]
 
-const selectedPlayer = ref('') // Initialize selectedPlayer
-
-console.log(player1)
-console.log(player2)
-console.log(player3)
+const selectedPlayer = reactive({ player: null })
 
 const navigateToAbout = () => {
+  eventBus.selectedPlayer = selectedPlayer.player // Emit the selected player to the event bus
   router.push({ name: 'about' })
 }
 </script>

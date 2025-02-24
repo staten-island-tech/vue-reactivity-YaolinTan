@@ -47,7 +47,7 @@
 import { players } from './array'
 import { reactive } from 'vue'
 import { useRouter } from 'vue-router'
-import eventBus from '../EventBus' // Adjust the path based on the actual location
+import eventBus from '../EventBus'
 
 const router = useRouter()
 
@@ -64,7 +64,7 @@ const player3 = playersArray[2]
 const selectedPlayer = reactive({ player: null })
 
 const navigateToAbout = () => {
-  eventBus.selectedPlayer = selectedPlayer.player // Emit the selected player to the event bus
+  eventBus.selectedPlayer = selectedPlayer.player
   router.push({ name: 'about' })
 }
 </script>

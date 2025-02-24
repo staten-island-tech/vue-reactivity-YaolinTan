@@ -54,19 +54,19 @@ const midRangeChance = (player) => (player.midRange * 0.55) / 100
 const drivingLayupChance = (player) => (player.drivingLayup * 0.7) / 100
 const stepbackThreeChance = (player) => {
   const baseChance = (player.threePoint * 0.5) / 99 // Scale to max of 0.38
-  const handlingEffect = Math.random() < player.ballHandling / 99 ? 0.05 : -0.05 // Chance based on ball handling
+  const handlingEffect = Math.random() < player.ballHandling / 99 ? 0.1 : -0.1 // Chance based on ball handling
   return Math.min(baseChance + handlingEffect, 0.5) // Cap at 0.38
 }
 
 const spinJumperChance = (player) => {
   const baseChance = (player.midRange * 0.55) / 99 // Scale to max of 0.45
-  const handlingEffect = Math.random() < player.ballHandling / 99 ? 0.03 : -0.03 // Chance based on ball handling
+  const handlingEffect = Math.random() < player.ballHandling / 99 ? 0.05 : -0.05 // Chance based on ball handling
   return Math.min(baseChance + handlingEffect, 0.55) // Cap at 0.45
 }
 
 const behindBackLayupChance = (player) => {
   const baseChance = (player.drivingLayup * 0.55) / 99 // Scale to max of 0.45
-  const handlingEffect = Math.random() < player.ballHandling / 99 ? 0.05 : -0.05 // Lower reward/punishment chance
+  const handlingEffect = Math.random() < player.ballHandling / 99 ? 0.08 : -0.08 // Lower reward/punishment chance
   return Math.min(baseChance + handlingEffect, 0.55) // Cap at 0.45
 }
 

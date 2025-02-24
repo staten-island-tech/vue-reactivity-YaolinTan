@@ -1,26 +1,32 @@
 <template>
-  <div class="flex flex-row">
+  <div class="flex flex-row justify-center mt-[3rem]">
     <div class="box content mt-[3rem] flex justify-center items-center">
-      <form @submit.prevent="navigateToAbout">
-        <p>Select an option:</p>
-        <label>
+      <form class="mr-[2rem]" @submit.prevent="navigateToAbout">
+        <p class="mb-[2rem]">Select an option:</p>
+        <label class="flex flex-row">
           <input type="radio" name="choice" :value="player1" v-model="selectedPlayer.player" />
-          {{ player1.name }} </label
+          <h2>{{ player1.name }}</h2> </label
         ><br />
-        <label>
+        <label class="flex flex-row">
           <input type="radio" name="choice" :value="player2" v-model="selectedPlayer.player" />
-          {{ player2.name }} </label
+          <h2>{{ player2.name }}</h2> </label
         ><br />
-        <label>
+        <label class="flex flex-row">
           <input type="radio" name="choice" :value="player3" v-model="selectedPlayer.player" />
-          {{ player3.name }} </label
+          <h2>{{ player3.name }}</h2> </label
         ><br />
         <button class="submit-button" type="submit">Submit</button>
       </form>
-      <h2>Selected Player: {{ selectedPlayer.player ? selectedPlayer.player.name : 'None' }}</h2>
+      <h2 class="mr-[2rem]">
+        Selected Player: {{ selectedPlayer.player ? selectedPlayer.player.name : 'None' }}
+      </h2>
     </div>
     <div class="flex flex-row">
-      <div v-for="player in playersArray" :key="player.name" class="player-card mx-[1rem]">
+      <div
+        v-for="player in playersArray"
+        :key="player.name"
+        class="player-card mx-[1.5rem] mt-[2rem] bg-[#d9c196] border border-[#5d3eca75] rounded-[1rem] px-[1rem] py-[1rem] text-gray-800"
+      >
         <h2 class="font-bold">{{ player.name }}</h2>
         <ul>
           <li>Overall: {{ player.overall }}</li>
@@ -67,5 +73,10 @@ const navigateToAbout = () => {
 .submit-button {
   padding: 0.5rem;
   background-color: gray;
+}
+@media (max-width: 800px) {
+  h2 {
+    font-size: 1rem;
+  }
 }
 </style>

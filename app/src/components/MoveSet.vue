@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col">
-    <div class="flex justify-center">
+    <div class="flex justify-center mb-[2rem]">
       <div class="scoreboard flex justify-center">
         <span class="score">{{ playerScore }} - {{ cpuScore }}</span>
       </div>
@@ -17,13 +17,21 @@
       </button>
     </div>
     <div class="flex flex-row justify-evenly">
-      <button class="btn" @click.prevent="shoot(threePointChance, 'three')" :disabled="gameOver">
+      <button
+        class="btn"
+        @click.prevent="shoot(stepbackThreeChance, 'stepback')"
+        :disabled="gameOver"
+      >
         <h2>Pound Dribble Stepback Three</h2>
       </button>
-      <button class="btn" @click.prevent="shoot(midRangeChance, 'mid')" :disabled="gameOver">
+      <button class="btn" @click.prevent="shoot(spinJumperChance, 'spin')" :disabled="gameOver">
         <h2>Drive into a midrange spin jumper</h2>
       </button>
-      <button class="btn" @click.prevent="shoot(drivingLayupChance, 'layup')" :disabled="gameOver">
+      <button
+        class="btn"
+        @click.prevent="shoot(behindBackLayupChance, 'behindback')"
+        :disabled="gameOver"
+      >
         <h2>Double behind the back wrap into a driving layup</h2>
       </button>
     </div>
@@ -31,10 +39,12 @@
 </template>
 
 <script setup>
-import eventBus from '../EventBus' // Ensure this path is correct
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+import eventBus from '../EventBus' // Ensure this path is correct
 import { players } from './array'
 
+const router = useRouter()
 const playerScore = ref(0)
 const cpuScore = ref(0)
 const gameOver = ref(false) // Track if the game is over
@@ -42,6 +52,23 @@ const gameOver = ref(false) // Track if the game is over
 const threePointChance = (player) => (player.threePoint * 0.45) / 100
 const midRangeChance = (player) => (player.midRange * 0.55) / 100
 const drivingLayupChance = (player) => (player.drivingLayup * 0.7) / 100
+const stepbackThreeChance = (player) => {
+  const baseChance = (player.threePoint * 0.38) / 99 // Scale to max of 0.38
+  const handlingEffect = Math.random() < player.ballHandling / 99 ? 0.05 : -0.05 // Chance based on ball handling
+  return Math.min(baseChance + handlingEffect, 0.38) // Cap at 0.38
+}
+
+const spinJumperChance = (player) => {
+  const baseChance = (player.midRange * 0.45) / 99 // Scale to max of 0.45
+  const handlingEffect = Math.random() < player.ballHandling / 99 ? 0.05 : -0.05 // Chance based on ball handling
+  return Math.min(baseChance + handlingEffect, 0.45) // Cap at 0.45
+}
+
+const behindBackLayupChance = (player) => {
+  const baseChance = (player.drivingLayup * 0.45) / 99 // Scale to max of 0.45
+  const handlingEffect = Math.random() < player.ballHandling / 99 ? 0.03 : -0.03 // Lower reward/punishment chance
+  return Math.min(baseChance + handlingEffect, 0.45) // Cap at 0.45
+}
 
 const shoot = (shot, shotType) => {
   const player = eventBus.selectedPlayer // Get the selected player from the event bus
@@ -61,7 +88,13 @@ const shoot = (shot, shotType) => {
     } else if (shotType === 'mid') {
       playerScore.value += 2 // 2 points for a mid-range shot
     } else if (shotType === 'layup') {
-      playerScore.value += 1 // 1 point for a layup
+      playerScore.value += 2 // 2 points for a layup
+    } else if (shotType === 'stepback') {
+      playerScore.value += 3 // 3 points for a stepback three
+    } else if (shotType === 'spin') {
+      playerScore.value += 2 // 2 points for a spin jumper
+    } else if (shotType === 'behindback') {
+      playerScore.value += 2 // 2 points for a behind the back layup
     }
   } else {
     console.log('brick')
@@ -71,10 +104,12 @@ const shoot = (shot, shotType) => {
   if (playerScore.value >= 21) {
     console.log('You win!')
     gameOver.value = true // Set game over
+    router.push({ name: 'win' }) // Redirect to WinView.vue
     return // Game stops here
   } else if (cpuScore.value >= 21) {
     console.log('You lose!')
     gameOver.value = true // Set game over
+    router.push({ name: 'lose' }) // Redirect to LoseView.vue
     return // Game stops here
   }
 
@@ -84,7 +119,8 @@ const shoot = (shot, shotType) => {
 const enemyTurn = () => {
   const randomNumber = Math.floor(Math.random() * players.length)
   const enemyPlayer = players[randomNumber]
-  const enemyShotType = Math.floor(Math.random() * 3) // 0: three, 1: mid, 2: layup
+  console.log(enemyPlayer)
+  const enemyShotType = Math.floor(Math.random() * 6) // Now allows for 6 different shot types
 
   let shotChanceFunction
   let shotType
@@ -103,6 +139,18 @@ const enemyTurn = () => {
       shotChanceFunction = drivingLayupChance
       shotType = 'layup'
       break
+    case 3:
+      shotChanceFunction = stepbackThreeChance
+      shotType = 'stepback'
+      break
+    case 4:
+      shotChanceFunction = spinJumperChance
+      shotType = 'spin'
+      break
+    case 5:
+      shotChanceFunction = behindBackLayupChance
+      shotType = 'behindback'
+      break
   }
 
   const shotChance = Math.random()
@@ -117,7 +165,13 @@ const enemyTurn = () => {
     } else if (shotType === 'mid') {
       cpuScore.value += 2 // 2 points for a mid-range shot
     } else if (shotType === 'layup') {
-      cpuScore.value += 1 // 1 point for a layup
+      cpuScore.value += 2 // 2 points for a layup
+    } else if (shotType === 'stepback') {
+      cpuScore.value += 3 // 3 points for a stepback three
+    } else if (shotType === 'spin') {
+      cpuScore.value += 2 // 2 points for a spin jumper
+    } else if (shotType === 'behindback') {
+      cpuScore.value += 2 // 2 points for a behind the back layup
     }
   } else {
     console.log('Enemy brick')
@@ -127,10 +181,12 @@ const enemyTurn = () => {
   if (playerScore.value >= 21) {
     console.log('You win!')
     gameOver.value = true // Set game over
+    router.push({ name: 'win' }) // Redirect to WinView.vue
     return // Game stops here
   } else if (cpuScore.value >= 21) {
     console.log('You lose!')
     gameOver.value = true // Set game over
+    router.push({ name: 'lose' }) // Redirect to LoseView.vue
     return // Game stops here
   }
 }
@@ -142,9 +198,13 @@ h2 {
 }
 button {
   width: 29vw;
-  height: 5rem;
+  height: 6rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
   background-color: black;
   margin: 1rem;
+  border: 0.2rem solid gold;
+  border-radius: 5rem;
 }
 .scoreboard {
   display: flex;
@@ -158,5 +218,10 @@ button {
   font-size: 48px;
   font-weight: bold;
   text-align: center;
+}
+@media (max-width: 800px) {
+  h2 {
+    font-size: 1rem;
+  }
 }
 </style>
